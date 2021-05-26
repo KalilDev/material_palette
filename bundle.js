@@ -3760,7 +3760,7 @@ var RGBAtoLABA = function (a) {
 LCHA.prototype.La = function (a) {
   return 0.0001 > Math.abs(this.g - a.g) && 0.0001 > Math.abs(this.chroma - a.chroma) && 0.0001 > Math.abs(this.hue - a.hue) && Math.abs(this.alpha - a.alpha) < T
 };
-var Gd = function (a) {
+var LABAtoLCH = function (a) {
   return new LCHA(a.g, Math.sqrt(Math.pow(a.A, 2) + Math.pow(a.B, 2)), (180 * Math.atan2(a.B, a.A) / Math.PI + 360) % 360, a.alpha)
 };
 function W(a) {
@@ -3779,7 +3779,7 @@ function partLABAtoXYZA(a) {
     c = 3 * Math.pow(b, 2);
   return a > b ? Math.pow(a, 3) : c * (a - 4 / 29)
 }
-var Jd = function (a, b) {
+var inverseTangent360 = function (a, b) {
   if (0.0001 > Math.abs(a) && 0.0001 > Math.abs(b)) return 0;
   a = 180 * Math.atan2(a, b) / Math.PI;
   return 0 <= a ? a : a + 360
@@ -4063,9 +4063,9 @@ function createMaterialPalette(a) {
   b = d.fd;
   d = d.ed;
   var e = b[d],
-    l = Gd(e),
-    h = Gd(c),
-    g = 30 > Gd(b[5]).chroma,
+    l = LABAtoLCH(e),
+    h = LABAtoLCH(c),
+    g = 30 > LABAtoLCH(b[5]).chroma,
     f = l.g - h.g,
     m = l.chroma - h.chroma,
     n = l.hue - h.hue,
@@ -4075,7 +4075,7 @@ function createMaterialPalette(a) {
   return b.map(function (x, i) {
     if (x === e) return p = Math.max(h.g - 1.7, 0),
       a;
-    x = Gd(x);
+    x = LABAtoLCH(x);
     var y = x.g - Ld[i] / u * f;
     y = Math.min(y, p);
     i = new LCHA(minMax(y, 0, 100), Math.max(0, g ? x.chroma - m : x.chroma - m * Math.min(Md[i] / q, 1.25)), (x.hue - n + 360) % 360);
@@ -4089,31 +4089,36 @@ function createMaterialPalette(a) {
     return new RGBA(minMax(partXYZAtoLABA(3.2404542 * x + - 1.5371385 * y + - 0.4985314 * z), 0, 1), minMax(partXYZAtoLABA(- 0.969266 * x + 1.8760108 * y + 0.041556 * z), 0, 1), minMax(partXYZAtoLABA(0.0556434 * x + - 0.2040259 * y + 1.0572252 * z), 0, 1), i.alpha)
   })
 }
-function Yd(a, b) {
-  b = void 0 === b ? Kd : b;
-  console.log(a, b)
-  if (!b.length || !b[0].length) throw Error('Invalid golden palettes');
-  for (var c = Infinity, d = b[0], e = - 1, l = 0; l < b.length; l++) for (var h = 0; h < b[l].length && 0 < c; h++) {
-    var g = b[l][h],
-      f = (g.g + a.g) / 2,
-      m = Math.sqrt(Math.pow(g.A, 2) + Math.pow(g.B, 2)),
-      n = Math.sqrt(Math.pow(a.A, 2) + Math.pow(a.B, 2)),
-      u = (m + n) / 2;
+function Yd(inputColor, inputPalette) {
+  inputPalette = void 0 === inputPalette ? Kd : inputPalette;
+  if (!inputPalette.length || !inputPalette[0].length) throw Error('Invalid golden palettes');
+  for (var c = Infinity, d = inputPalette[0], e = - 1, l = 0; l < inputPalette.length; l++) for (var h = 0; h < inputPalette[l].length && 0 < c; h++) {
+    // CIEDE2000 LAB color difference
+    var g = inputPalette[l][h],
+      f = (g.g + inputColor.g) / 2,
+      // Distance from g.A to g.B
+      c = Math.sqrt(Math.pow(g.A, 2) + Math.pow(g.B, 2)),
+      // Distance from inputColor.A to inputColor.B
+      n = Math.sqrt(Math.pow(inputColor.A, 2) + Math.pow(inputColor.B, 2)),
+      // Avg of distances
+      u = (c + n) / 2;
     u = 0.5 * (1 - Math.sqrt(Math.pow(u, 7) / (Math.pow(u, 7) + Math.pow(25, 7))));
     var q = g.A * (1 + u),
-      p = a.A * (1 + u),
+      p = inputColor.A * (1 + u),
+      // LAB to LCH `C` factor on g with `A` from `q`
       r = Math.sqrt(Math.pow(q, 2) + Math.pow(g.B, 2)),
-      t = Math.sqrt(Math.pow(p, 2) + Math.pow(a.B, 2));
+      // LAB to LCH `C` factor on inputColor with `A` from `p`
+      t = Math.sqrt(Math.pow(p, 2) + Math.pow(inputColor.B, 2));
     u = t - r;
     var v = (r + t) / 2;
-    q = Jd(g.B, q);
-    p = Jd(a.B, p);
-    r = 2 * Math.sqrt(r * t) * Math.sin((0.0001 > Math.abs(m) || 0.0001 > Math.abs(n) ? 0 : 180 >= Math.abs(p - q) ? p - q : p <= q ? p - q + 360 : p - q - 360) / 2 * Math.PI / 180);
-    m = 0.0001 > Math.abs(m) || 0.0001 > Math.abs(n) ? 0 : 180 >= Math.abs(p - q) ? (q + p) / 2 : 360 > q + p ? (q + p + 360) / 2 : (q + p - 360) / 2;
+    q = inverseTangent360(g.B, q);
+    p = inverseTangent360(inputColor.B, p);
+    r = 2 * Math.sqrt(r * t) * Math.sin((0.0001 > Math.abs(c) || 0.0001 > Math.abs(n) ? 0 : 180 >= Math.abs(p - q) ? p - q : p <= q ? p - q + 360 : p - q - 360) / 2 * Math.PI / 180);
+    c = 0.0001 > Math.abs(c) || 0.0001 > Math.abs(n) ? 0 : 180 >= Math.abs(p - q) ? (q + p) / 2 : 360 > q + p ? (q + p + 360) / 2 : (q + p - 360) / 2;
     n = 1 + 0.045 * v;
-    t = 1 + 0.015 * v * (1 - 0.17 * Math.cos((m - 30) * Math.PI / 180) + 0.24 * Math.cos(2 * m * Math.PI / 180) + 0.32 * Math.cos((3 * m + 6) * Math.PI / 180) - 0.2 * Math.cos((4 * m - 63) * Math.PI / 180));
-    g = Math.sqrt(Math.pow((a.g - g.g) / (1 + 0.015 * Math.pow(f - 50, 2) / Math.sqrt(20 + Math.pow(f - 50, 2))), 2) + Math.pow(u / (1 * n), 2) + Math.pow(r / (1 * t), 2) + u / (1 * n) * Math.sqrt(Math.pow(v, 7) / (Math.pow(v, 7) + Math.pow(25, 7))) * Math.sin(60 * Math.exp(- Math.pow((m - 275) / 25, 2)) * Math.PI / 180) * - 2 * (r / (1 * t)));
-    g < c && (c = g, d = b[l], e = h)
+    t = 1 + 0.015 * v * (1 - 0.17 * Math.cos((c - 30) * Math.PI / 180) + 0.24 * Math.cos(2 * c * Math.PI / 180) + 0.32 * Math.cos((3 * c + 6) * Math.PI / 180) - 0.2 * Math.cos((4 * c - 63) * Math.PI / 180));
+    g = Math.sqrt(Math.pow((inputColor.g - g.g) / (1 + 0.015 * Math.pow(f - 50, 2) / Math.sqrt(20 + Math.pow(f - 50, 2))), 2) + Math.pow(u / (1 * n), 2) + Math.pow(r / (1 * t), 2) + u / (1 * n) * Math.sqrt(Math.pow(v, 7) / (Math.pow(v, 7) + Math.pow(25, 7))) * Math.sin(60 * Math.exp(- Math.pow((c - 275) / 25, 2)) * Math.PI / 180) * - 2 * (r / (1 * t)));
+    g < c && (c = g, d = inputPalette[l], e = h)
   }
   return {
     fd: d,

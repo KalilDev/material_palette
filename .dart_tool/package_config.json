@@ -1,0 +1,68 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "color_models",
+      "rootUri": "../../color_models/color_models",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "matcher",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/matcher-0.12.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "meta",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/meta-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "num_utilities",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/num_utilities-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/path-1.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "powers",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/powers-1.0.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "quiver",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/quiver-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "stack_trace",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/stack_trace-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "tuple",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/tuple-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "material_palette",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    }
+  ],
+  "generated": "2021-05-26T02:26:04.070612Z",
+  "generator": "pub",
+  "generatorVersion": "2.13.0"
+}
