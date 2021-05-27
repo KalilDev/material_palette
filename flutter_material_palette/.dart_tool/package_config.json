@@ -1,0 +1,116 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "characters",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/characters-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "collection",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/collection-1.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "color_models",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/color_models-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter",
+      "rootUri": "file:///home/pedro/src/flutter/packages/flutter",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_color_models",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/flutter_color_models-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "matcher",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/matcher-0.12.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "material_palette",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/material_palette-0.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "meta",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/meta-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "num_utilities",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/num_utilities-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/path-1.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "powers",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/powers-1.0.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "quiver",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/quiver-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sky_engine",
+      "rootUri": "file:///home/pedro/src/flutter/bin/cache/pkg/sky_engine",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "stack_trace",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/stack_trace-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "tuple",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/tuple-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "typed_data",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/typed_data-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "vector_math",
+      "rootUri": "file:///home/pedro/.pub-cache/hosted/localhost%25584000/vector_math-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_material_palette",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    }
+  ],
+  "generated": "2021-05-27T04:55:01.932791Z",
+  "generator": "pub",
+  "generatorVersion": "2.13.0"
+}
