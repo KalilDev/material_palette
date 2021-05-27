@@ -44,19 +44,12 @@ packages:
     source: hosted
     version: "1.15.0"
   color_models:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../color_models/color_models"
-      relative: true
-    source: path
-    version: "1.2.1"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
+      name: color_models
       url: "http://localhost:4000"
     source: hosted
-    version: "1.0.3"
+    version: "1.3.0"
   fake_async:
     dependency: transitive
     description:
@@ -72,10 +65,10 @@ packages:
   flutter_color_models:
     dependency: "direct main"
     description:
-      path: "../../color_models/flutter_color_models"
-      relative: true
-    source: path
-    version: "1.2.1"
+      name: flutter_color_models
+      url: "http://localhost:4000"
+    source: hosted
+    version: "1.3.0"
   flutter_colorpicker:
     dependency: "direct main"
     description:
@@ -83,6 +76,13 @@ packages:
       url: "http://localhost:4000"
     source: hosted
     version: "0.4.0"
+  flutter_material_palette:
+    dependency: "direct main"
+    description:
+      name: flutter_material_palette
+      url: "http://localhost:4000"
+    source: hosted
+    version: "0.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -98,10 +98,10 @@ packages:
   material_palette:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.0"
+      name: material_palette
+      url: "http://localhost:4000"
+    source: hosted
+    version: "0.1.0"
   meta:
     dependency: transitive
     description:
