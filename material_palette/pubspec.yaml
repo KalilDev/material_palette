@@ -1,8 +1,10 @@
 name: material_palette
+description: An package which can generate an full material design palette from an single color
 version: 0.1.0
+
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   color_models: ^1.3.0
-  tuple:
+  tuple: '>=1.0.0 <3.0.0'
