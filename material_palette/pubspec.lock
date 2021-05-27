@@ -4,10 +4,10 @@ packages:
   color_models:
     dependency: "direct main"
     description:
-      path: "../color_models/color_models"
-      relative: true
-    source: path
-    version: "1.2.1"
+      name: color_models
+      url: "http://localhost:4000"
+    source: hosted
+    version: "1.3.0"
   matcher:
     dependency: transitive
     description:

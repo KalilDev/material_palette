@@ -1,9 +1,8 @@
 name: material_palette
-
+version: 0.1.0
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  color_models:
-    path: ../color_models/color_models
+  color_models: ^1.3.0
   tuple:
