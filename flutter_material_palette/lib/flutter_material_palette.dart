@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_palette/material_palette.dart';
-import 'package:color_models/color_models.dart';
 import 'package:flutter_color_models/flutter_color_models.dart'
     show ToColorModel, ToColor;
 
@@ -16,14 +15,12 @@ class MaterialColors {
   /// [color] as the primary color and derives the palletes lazily.
   factory MaterialColors.deriveFrom(
     Color color, {
-    ColorDistanceFunction distanceFn = CIE76ColorDistance, // cheaper
-    List<List<LabColor>> goldenPalettes = kGoldenMaterialPalettes,
+    ColorDistanceFunction distanceFn = deltaE94, // cheaper
   }) =>
       MaterialColors(
         MaterialPalettes(
           color.toHslColor(),
           distanceFn: distanceFn,
-          goldenPalettes: goldenPalettes,
         ),
       );
 
@@ -73,8 +70,7 @@ MaterialColor materialColorFromPalette(MaterialPalette palette) =>
 /// Compute the [MaterialColor] which results from the [color].
 MaterialColor deriveMaterialColor(
   Color color, {
-  ColorDistanceFunction distanceFn = CIE76ColorDistance, // cheaper
-  List<List<LabColor>> goldenPalettes = kGoldenMaterialPalettes,
+  ColorDistanceFunction distanceFn = deltaE94, // cheaper
 }) {
   final palette = createMaterialPalette(color.toLabColor());
   return MaterialColor(
