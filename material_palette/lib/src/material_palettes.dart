@@ -1,8 +1,6 @@
 import 'package:color_models/color_models.dart';
 import 'material_palette.dart';
-import 'color_distance.dart';
 import 'golden.dart';
-import 'golden_data.dart';
 
 /// An class which takes an base color and constructs triadic, complementary,
 /// analogous and primary [MaterialPalette]s lazily and memoizes the results.
@@ -11,9 +9,8 @@ class MaterialPalettes {
 
   MaterialPalettes(
     this._baseColor, {
-    ColorDistanceFunction distanceFn = CIE76ColorDistance, // cheaper
-    List<List<LabColor>> goldenPalettes = kGoldenMaterialPalettes,
-  }) : _lazyPalette = _lazyPaletteFactory(distanceFn, goldenPalettes);
+    ColorDistanceFunction distanceFn = deltaE94, // cheaper than deltaE00
+  }) : _lazyPalette = _lazyPaletteFactory(distanceFn);
 
   final _LazyPalette _lazyPalette;
 
@@ -48,13 +45,11 @@ typedef _LazyPalette = MaterialPalette Function() Function(ColorModel color);
 
 _LazyPalette _lazyPaletteFactory(
   ColorDistanceFunction distanceFn,
-  List<List<LabColor>> goldenPalettes,
 ) =>
     (color) {
       MaterialPalette? palette;
       return () => palette ??= createMaterialPalette(
             color,
             distanceFn: distanceFn,
-            goldenPalettes: goldenPalettes,
           );
     };

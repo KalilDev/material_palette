@@ -1,7 +1,5 @@
 import 'package:color_models/color_models.dart';
-import 'color_distance.dart';
 import 'golden.dart';
-import 'golden_data.dart';
 import 'dart:math' as math;
 
 /// An [MaterialPalette] which was derived from an [GoldenMaterialPalette] and
@@ -32,23 +30,53 @@ class MaterialPalette {
   RgbColor get primary => swatches[primarySwatch]!;
 }
 
+class _LCH {
+  const _LCH(
+    this.lightness,
+    this.chroma,
+    this.hue,
+    this.alpha,
+  );
+  final num lightness;
+  final num chroma;
+  final num hue;
+  final int alpha;
+
+  factory _LCH.fromLab(LabColor color) => _LCH(
+        color.lightness,
+        math.sqrt(math.pow(color.a, 2) + math.pow(color.b, 2)),
+        (180 * math.atan2(color.b, color.a) / math.pi + 360) % 360,
+        color.alpha,
+      );
+
+  LabColor toLab() {
+    final hueRadians = hue * math.pi / 180;
+    // The clamping should not happen but we want to play nice with the other
+    // [ColorSpace]s
+    return LabColor(
+      lightness.clamp(0, 100),
+      (chroma * math.cos(hueRadians)).clamp(-128, 127),
+      (chroma * math.sin(hueRadians)).clamp(-128, 127),
+      alpha,
+    );
+  }
+}
+
 /// Create an [MaterialPalette] with [rawTarget] as the primary color.
 MaterialPalette createMaterialPalette(
   ColorModel rawTarget, {
-  List<List<LabColor>> goldenPalettes = kGoldenMaterialPalettes,
-  ColorDistanceFunction distanceFn = CIEDE2000ColorDistance,
+  ColorDistanceFunction distanceFn = deltaE00,
 }) {
-  final target = rawTarget.toLchColor();
+  final target = _LCH.fromLab(rawTarget.toLabColor());
 
   final goldenPalette = findClosestGoldenPalette(
     rawTarget.toLabColor(),
-    goldenPalettes: goldenPalettes,
     distanceFn: distanceFn,
   );
   final goldenSwatches = goldenPalette.swatches;
 
-  final goldenPrimary = goldenPalette.primarySwatch.toLchColor();
-  final isLowSaturation = goldenSwatches[5].toLchColor().chroma < 30;
+  final goldenPrimary = _LCH.fromLab(goldenPalette.primarySwatch);
+  final isLowSaturation = _LCH.fromLab(goldenSwatches[5]).chroma < 30;
 
   final targetLightnessFac =
           _kLightnessSwatchFactors[goldenPalette.primaryIndex],
@@ -62,7 +90,7 @@ MaterialPalette createMaterialPalette(
   return MaterialPalette.fromSwatches(
     goldenPalette.primaryIndex,
     goldenSwatches
-        .map((golden) => golden.toLchColor())
+        .map((golden) => _LCH.fromLab(golden))
         .mapIndexed<RgbColor>((golden, i) {
       if (i == goldenPalette.primaryIndex) {
         nextLightness = math.max(target.lightness - 1.7, 0);
@@ -83,37 +111,37 @@ MaterialPalette createMaterialPalette(
 
       final hue = (golden.hue - dtH + 360) % 360;
 
-      final resultColor = new LchColor(lightness, chroma, hue);
+      final resultColor = new _LCH(lightness, chroma, hue, 255);
 
       nextLightness = math.max(resultColor.lightness - 1.7, 0);
-      return resultColor.toRgbColor();
+      return resultColor.toLab().toRgbColor();
     }).toList(),
   );
 }
 
 const List<double> _kLightnessSwatchFactors = [
-  2.048875457, // Color(0xFF070707)
-  5.124792061, // Color(0xFF111111)
-  8.751659557, // Color(0xFF191919)
-  12.07628774, // Color(0xFF202020)
-  13.91449542, // Color(0xFF232323)
-  15.92738893, // Color(0xFF282828)
-  15.46585818, // Color(0xFF272727)
-  15.09779227, // Color(0xFF262626)
-  15.13738673, // Color(0xFF262626)
-  15.09818372, // Color(0xFF262626)
+  2.048875457,
+  5.124792061,
+  8.751659557,
+  12.07628774,
+  13.91449542,
+  15.92738893,
+  15.46585818,
+  15.09779227,
+  15.13738673,
+  15.09818372,
 ];
 const List<double> _kChromaSwatchFactors = [
-  1.762442714, // Color(0xFF080204)
-  4.213532634, // Color(0xFF0e0004)
-  7.395827458, // Color(0xFF140004)
-  11.07174158, // Color(0xFF190004)
-  13.89634504, // Color(0xFF1d0004)
-  16.37591477, // Color(0xFF1f0004)
-  16.27071136, // Color(0xFF1f0004)
-  16.54160806, // Color(0xFF200004)
-  17.35916727, // Color(0xFF210004)
-  19.88410864, // Color(0xFF230005)
+  1.762442714,
+  4.213532634,
+  7.395827458,
+  11.07174158,
+  13.89634504,
+  16.37591477,
+  16.27071136,
+  16.54160806,
+  17.35916727,
+  19.88410864,
 ];
 
 extension _T<T> on Iterable<T> {
